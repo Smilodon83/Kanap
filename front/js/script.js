@@ -5,7 +5,7 @@ fetch("http://localhost:3000/api/products")
 })
 .then(function(resultatAPI){
     const products = resultatAPI;
-    // console.table(products);
+    console.table(products);
 for (let product in products){
 
 

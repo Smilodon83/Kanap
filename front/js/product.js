@@ -52,52 +52,52 @@ fetch("http://localhost:3000/api/products/" + id)
         let colorChoose = document.querySelector("#colors");
         let quantityChoose = document.querySelector("#quantity");
         const btnAddCart = document.querySelector("#addToCart");
-        let getStorage = JSON.parse(localStorage.getItem("products"));
-
+       
+    
 
         //Ecoute du click sur le bouton ajouter au panier
         btnAddCart.addEventListener("click", event => {
             if (quantityChoose.value > 0 && quantityChoose.value <= 100 && colorChoose.value !== '') {
                 // Actions a mener si l'utilisateur a bien saisie une quantité et une couleur :
-                    //Creation du produit a ajouter :
-                    let articleToAdd = {
-                        id : id,
-                        quantity : quantityChoose.value,
-                        color : colorChoose.value
+    // On creé un objet "article" à stocker 
+                let article = {
+                    id : id,
+                    color : colorChoose.value,
+                    quantity : parseInt(quantityChoose.value)
+                };
+                // console.log("message quantité", typeof quantityChoose.value);
+    // On crée la variable "basket" qui sera la clé a enregistrer dans le local storage
+                let basket = JSON.parse(localStorage.getItem("basket"));
+    //Si il y a deja des produit dans le local storage :
+                if (basket != null ){
+                    let foundProduct = basket.find(basket => (basket.id === id && basket.color === colorChoose.value));
+                    console.log(foundProduct);
+                    if (basket != null && foundProduct !== undefined){
+                    let addQuantity = parseInt(article.quantity) + parseInt(foundProduct.quantity);
+                    foundProduct.quantity = addQuantity;
+                    console.log(addQuantity);
+                    localStorage.setItem("basket", JSON.stringify(basket));
+                    }else{
+                        basket.push(article);
+                     localStorage.setItem("basket", JSON.stringify(basket));
                     }
-                   
-                    //Creation du tableau du local storage :
-                    let articleInCart = [];
 
-                    //Si le LS est vide on crée le produit
-                    if (getStorage == null){
-                        articleInCart.push(articleToAdd);
-                        localStorage.setItem("products", JSON.stringify(articleInCart));
+                }
+    //S'il n'y a pas des  produit dans le local storage :
+                else{
+                    basket = [];
+                    basket.push(article);
+                     localStorage.setItem("basket", JSON.stringify(basket));
+                    console.log(basket);
+                }
+// On informe l'utilisateur de l'ajout
 
-                        //Produit existant dans le LS, on ajoute la quantité
-                    }else if (getStorage !== null && getStorage.find(article => article.id === id && article.color === colorChoose.value) != undefined) {
-                        let foundArticle = getStorage.find(article => article.id === id && article.color === colorChoose.value);
-                        articleInCart = getStorage;
-                        let addQuantity = parseInt(articleToAdd.quantity) + parseInt(foundArticle.quantity);
-                        foundArticle.quantity = addQuantity;
-                        localStorage.setItem("products", JSON.stringify(articleInCart));
-                    }// Sinon on ajoute le nouveau produit
-                    else if (getStorage !== null) {
-                        articleInCart = getStorage;
-                        articleInCart.push(articleToAdd);
-                        localStorage.setItem("products", JSON.stringify(articleInCart));
-                      }
-
-                      alert(`Vous avez bien ajouté ${quantityChoose.value} ${products.name} ${colorChoose.value} à votre panier`);
-
-
-            
-
+                alert(`Vous avez bien ajouté ${quantityChoose.value} ${products.name} ${colorChoose.value} à votre panier`);
 
 
 
             } else //Informer l'utilisateur de devoir rentrer une quantité entre 0 et 100 ainsi q'une couleur
-                alert("Merci de bien vouloir selectioner une couleur et une quantité entre 1 et 100");
+                alert("Merci de bien vouloir selectioner une couleur ainsi q'une quantité comprise entre 1 et 100");
         });
 
     })
