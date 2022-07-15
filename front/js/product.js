@@ -63,7 +63,9 @@ fetch("http://localhost:3000/api/products/" + id)
                 let article = {
                     id : id,
                     color : colorChoose.value,
-                    quantity : parseInt(quantityChoose.value)
+                    quantity : parseInt(quantityChoose.value),
+                    // name : products.name,
+                    // image : products.imageUrl
                 };
                 // console.log("message quantité", typeof quantityChoose.value);
     // On crée la variable "basket" qui sera la clé a enregistrer dans le local storage
