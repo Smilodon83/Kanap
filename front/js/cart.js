@@ -425,6 +425,7 @@ let contact = {
              
            });
       //Si le panier est vide     
-     }else alert("Votre panier est vide");
+     }else {alert("Votre panier est vide");
+     location.reload();}
    }
  });
