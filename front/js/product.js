@@ -35,20 +35,20 @@ function displayProduct(product) {
     productImg.alt = product.altTxt;
 
     //Modification de la balise h1
-    document.getElementById('title').innerHTML = product.name;
+    document.getElementById('title').innerText = product.name;
 
     // Modification du prix
-    document.getElementById('price').innerHTML = product.price + " ";
+    document.getElementById('price').innerText = product.price + " ";
 
     //Modification de la description
-    document.getElementById('description').innerHTML = product.description;
+    document.getElementById('description').innerText = product.description;
 
     //Ajout des options de couleur 
     for (let color of product.colors) {
         let productColor = document.createElement("option");
         document.querySelector('#colors').append(productColor);
         productColor.value = color;
-        productColor.innerHTML = color;
+        productColor.innerText = color;
 
     }
 }
@@ -78,7 +78,7 @@ function addToCart(product) {
             // console.log("message quantité", typeof quantityChoose.value);
             // On crée la variable "basket" qui sera la clé a enregistrer dans le local storage
             let basket = JSON.parse(localStorage.getItem("basket"));
-            //Si il y a deja des produit dans le local storage :
+            //Si il y a deja des produit avec dans le local storage :
             if (basket != null) {
                 let foundProduct = basket.find(basket => (basket.id === id && basket.color === colorChoose.value));
                 console.log(foundProduct);

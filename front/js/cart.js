@@ -47,7 +47,7 @@ function getProducts() {
 getProducts();
 function getCart(productList) {
 
-  // si le panier est vide
+  
  
   // on crée les éléments manquants dans le local storage
 
@@ -85,12 +85,12 @@ function getCart(productList) {
       // Ajout du titre h3
       let productTitle = document.createElement("h2");
       itemContentTitlePrice.appendChild(productTitle);
-      productTitle.innerHTML = currentProduct.name;
+      productTitle.innerText = currentProduct.name;
 
       // Ajout de la couleur
       let productColor = document.createElement("p");
       productTitle.appendChild(productColor);
-      productColor.innerHTML = productLocalStorage[product].color;
+      productColor.innerText = productLocalStorage[product].color;
 
 
       // Ajout du prix
@@ -98,7 +98,7 @@ function getCart(productList) {
       itemContentTitlePrice.appendChild(productPrice);
       // const currentProduct = productList.find(p => p._id === productLocalStorage[product].id);
       productPrice.classList = "product__price"
-      productPrice.innerHTML = currentProduct.price + " €";
+      productPrice.innerText = currentProduct.price + " €";
 
       // Ajout de la div "cart__item__content__settings"
       let itemContentSettings = document.createElement("div");
@@ -113,7 +113,7 @@ function getCart(productList) {
       // Ajout de "Qté : "
       let productQte = document.createElement("p");
       itemContentSettingsQuantity.appendChild(productQte);
-      productQte.innerHTML = "Qté : ";
+      productQte.innerText = "Qté : ";
 
       // Ajout de la quantité
       let productQuantity = document.createElement("input");
@@ -134,7 +134,7 @@ function getCart(productList) {
       let productDelete = document.createElement("p");
       itemContentSettingsDelete.appendChild(productDelete);
       productDelete.className = "deleteItem";
-      productDelete.innerHTML = "Supprimer";
+      productDelete.innerText = "Supprimer";
     }
   }
 
@@ -150,7 +150,7 @@ function getTotals() {
   }
 
   let productTotalQuantity = document.getElementById('totalQuantity');
-  productTotalQuantity.innerHTML = totalQuantity;
+  productTotalQuantity.innerText = totalQuantity;
 
 
   // On récupère le prix total
@@ -158,13 +158,13 @@ function getTotals() {
   
   totalPrice = 0;
   for (let i = 0; i < myLength; i++) {
-    let price = parseInt(elementPrice[i].innerHTML.split(" €")[0]);
+    let price = parseInt(elementPrice[i].innerText.split(" €")[0]);
     totalPrice += (elementsQuantity[i].valueAsNumber * price);
     
   }
 
   let productTotalPrice = document.getElementById('totalPrice');
-  productTotalPrice.innerHTML = totalPrice;
+  productTotalPrice.innerText = totalPrice;
 
 }
 
@@ -184,7 +184,8 @@ function modifyQuantity() {
       //Je selectionne l'élément à modifier selon son Id et sa couleur
       let itemNew = productLocalStorage[j].quantity;
       let itemModifValue = itemModif[j].valueAsNumber;
-
+      //J'ajoute une condition pour éviter que l'utilisateur saisisse une valeur négative ou supérieur à 100
+     if (itemModif[j].valueAsNumber > 0 && itemModif[j].valueAsNumber <= 100){
       const result = productLocalStorage.filter(
         (element) => element.itemModifValue !== itemNew);
 
@@ -192,10 +193,14 @@ function modifyQuantity() {
       productLocalStorage[j].quantity = result.quantity;
 
       localStorage.setItem("basket", JSON.stringify(productLocalStorage));
+      location.reload();
+    }else {
+      alert("La quantité doit etre comprise entre 0 et 100");
+      location.reload();
+    }
+    
 
-      location.reload();// rafraichir la  page
-      // alert("votre panier est à jour.")
-
+      
     });//fin addeventlistener
   }
 }
@@ -229,7 +234,7 @@ function deleteArticle() {
 /*******************/
 //formulaire
 /*******************/
-//je déclare contact et products je vais le remplir au fur et à mesure de la validation
+//On declare contact et products et on le rempli au fur et à mesure de la validation
 let contact = {
   firstName: "",
   lastName: "",
@@ -255,14 +260,14 @@ let emailErrorMsg = document.querySelector("#emailErrorMsg");
 let cityErrorMsg = document.querySelector("#cityErrorMsg");
 
 //Création des expressions régulières
-let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
-let letterRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");
-let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');// pour le champ email
+let letterRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$");// pour les champs nom, prénom et ville
+let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");//pour le champ adresse
 
 
 let submit = document.querySelector("#order");
 
-////condition avec regex et return des valeur boléennes selon condition remplie ou paspour chaque input
+////condition avec regex et return des valeur boléennes selon condition remplie ou pas pour chaque input
 /////////firstName/////////
 firstName.addEventListener("input", function (e) {
   //arrête d'écouter après le résultat valide
@@ -365,7 +370,7 @@ function validEmail(email) {
   return valid;
 }
 let products = [];
-//listen orderButton
+//Fonction d'écoute du bouton Confirmer
 let ordeButton = document.querySelector("#order").addEventListener("click", (e) => {
   e.preventDefault();
   if (

@@ -5,6 +5,9 @@ fetch("http://localhost:3000/api/products")
 })
 .then(function(resultatAPI){
     const products = resultatAPI;
+    // console.log(products);
+
+    //Appel de la fonction displayProducts afin de generer l'affichage des produits obtenus
     displayProducts(products);
 
 
@@ -24,37 +27,32 @@ function displayProducts(products){
         document.querySelector("#items").append(productLink);
         productLink.href = `product.html?id=${products[product]._id}`;
     
-        //Création de la balise <article>
+        //Création de la balise <article> dans la balise <a>
         let productArticle = document.createElement("article");
         productLink.append(productArticle);
     
     
-        //Création de la balise <img>
+        //Création de la balise <img> dans la balise <article>
         let productImg = document.createElement("img");
         productArticle.append(productImg);
         productImg.src = products[product].imageUrl;
         productImg.alt = products[product].altTxt;
     
-        //Création de la balise <h3>
+        //Création de la balise <h3> dans la balise <article>
         let productTitle = document.createElement("h3");
         productArticle.append(productTitle);
         productTitle.classList = "productName";
-        productTitle.innerHTML = products[product].name;
+        productTitle.innerText = products[product].name;
     
     
-        //Création de la balise <p> descriptive
+        //Création de la balise <p> dans la balise <article>
         let productDescription = document.createElement("p");
         productArticle.append(productDescription);
         productDescription.classList = "productDescription";
-        productDescription.innerHTML = products[product].description;
+        productDescription.innerText = products[product].description;
     
         
-        // //Bonus ajout du prix :
-        // let productPrice = document.createElement("p");
-        // productArticle.append(productPrice);
-        // productPrice.innerHTML = `Prix : ${products[product].price} €`;
-    
-    
+
     
     }
 }
